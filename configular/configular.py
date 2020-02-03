@@ -39,8 +39,11 @@ class Configular(object):
                  raise_on_not_found: bool = True):
         self.config = ConfigParser()
         self.config.read(os.path.expanduser(filename))
-        self.override_config = ConfigParser()
-        self.override_config.read(os.path.expanduser(override_filename))
+        if override_filename:
+            self.override_config = ConfigParser()
+            self.override_config.read(os.path.expanduser(override_filename))
+        else:
+            self.override_config = None
         self.raise_on_not_found = raise_on_not_found
 
     def get(self, section: str, parameter: str, default: Optional[str] = None) -> str:
@@ -51,7 +54,7 @@ class Configular(object):
         env_var_param = os.environ.get(env_var_name)
         if env_var_param:
             return env_var_param
-        if self.override_config.has_option(section, parameter):
+        if self.override_config and self.override_config.has_option(section, parameter):
             override_config_param = self.override_config.get(section, parameter)
             if override_config_param:
                 return override_config_param
