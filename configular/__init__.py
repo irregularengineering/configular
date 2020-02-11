@@ -1,4 +1,4 @@
-"""
+r"""
 _________                _____.__             .__
 \_   ___ \  ____   _____/ ____\__| ____  __ __|  | _____ _______
 /    \  \/ /  _ \ /    \   __\|  |/ ___\|  |  \  | \__  \\_  __ \
@@ -7,7 +7,7 @@ _________                _____.__             .__
         \/            \/        /_____/                 \/
 """
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 from configular.configular import Configular
 from configular.configular import ParameterNotFoundException
