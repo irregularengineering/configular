@@ -22,6 +22,12 @@ jobs:
             . venv/bin/activate
             pytest -vvv tests
 
+      - run:
+         name: lint
+         command: |
+           . venv/bin/activate
+           pylint configular
+
       - store_artifacts:
           path: test-reports
           destination: test-reports

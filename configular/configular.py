@@ -26,12 +26,13 @@ class ParameterNotFoundException(Exception):
     """
     Thrown when parameter does not exist in environment variables or secrets file
     """
-    def __init__(self, env_var_name):
-        message = f'Parameter not found in env vars, override file, or config file: {env_var_name}'
+    def __init__(self, section: str, parameter: str):
+        message = 'Parameter not found in env vars, override file, or config file: ' \
+                f'section={section}, parameter={parameter}'
         super(ParameterNotFoundException, self).__init__(message)
 
 
-class Configular(object):
+class Configular:
     """
     Configular - config and secrets manager
     """
@@ -46,22 +47,37 @@ class Configular(object):
             self.override_config = None
         self.raise_on_not_found = raise_on_not_found
 
-    def get(self, section: str, parameter: str, default: Optional[str] = None) -> str:
+    def get(self, section: str, parameter: str, default: Optional[str] = None) -> Optional[str]:
         """
         Get param value
+        """
+        value = self.get_from_env(section, parameter) or \
+                self.get_from_config(self.override_config, section, parameter) or \
+                self.get_from_config(self.config, section, parameter)
+        if value:
+            return value
+        if default is None and self.raise_on_not_found:
+            raise ParameterNotFoundException(section, parameter)
+        return default
+
+    @staticmethod
+    def get_from_env(section: str, parameter: str) -> Optional[str]:
+        """
+        Return param from environment variable if available, else None
         """
         env_var_name = f'{section}_{parameter}'
         env_var_param = os.environ.get(env_var_name)
         if env_var_param:
             return env_var_param
-        if self.override_config and self.override_config.has_option(section, parameter):
-            override_config_param = self.override_config.get(section, parameter)
-            if override_config_param:
-                return override_config_param
-        if self.config.has_option(section, parameter):
-            config_param = self.config.get(section, parameter)
+        return None
+
+    @staticmethod
+    def get_from_config(config: ConfigParser, section: str, parameter: str) -> Optional[str]:
+        """
+        Return param from override file if available, else None
+        """
+        if config.has_option(section, parameter):
+            config_param = config.get(section, parameter)
             if config_param:
-                return self.config.get(section, parameter)
-        if default is None and self.raise_on_not_found:
-            raise ParameterNotFoundException(env_var_name)
-        return default
+                return config.get(section, parameter)
+        return None
