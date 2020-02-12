@@ -21,7 +21,7 @@ If a parameter is not found, `ParameterNotFoundException` is thrown, unless disa
 ## Install
 
 ```bash
-pip install git+ssh://git@github.com/irregularengineering/configular.git
+pip install https://github.com/irregularengineering/configular.git
 ```
 
 ## Develop
