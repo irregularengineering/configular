@@ -14,7 +14,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('config_file', help='Config file name')
     parser.add_argument('section', help='Section name')
-    parser.add_argument('parameter',  help='Argument name')
+    parser.add_argument('parameter', help='Argument name')
     parser.add_argument('-o', '--override-file',  help='Config file override file name')
     args = parser.parse_args()
 
