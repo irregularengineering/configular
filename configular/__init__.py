@@ -7,7 +7,7 @@ _________                _____.__             .__
         \/            \/        /_____/                 \/
 """
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 from configular.configular import Configular
 from configular.configular import ParameterNotFoundException
