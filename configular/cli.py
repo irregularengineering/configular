@@ -11,11 +11,14 @@ from configular import Configular
 
 
 def main():
+    """
+    Fetch parameter from config file or environment variables
+    """
     parser = ArgumentParser()
     parser.add_argument('config_file', help='Config file name')
     parser.add_argument('section', help='Section name')
     parser.add_argument('parameter', help='Argument name')
-    parser.add_argument('-o', '--override-file',  help='Config file override file name')
+    parser.add_argument('-o', '--override-file', help='Config file override file name')
     args = parser.parse_args()
 
     configular = Configular(args.config_file, override_filename=args.override_file)
