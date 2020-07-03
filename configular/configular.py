@@ -76,7 +76,7 @@ class Configular:
         """
         Return param from override file if available, else None
         """
-        if config.has_option(section, parameter):
+        if config and config.has_option(section, parameter):
             config_param = config.get(section, parameter)
             if config_param:
                 return config.get(section, parameter)

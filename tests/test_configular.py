@@ -84,3 +84,8 @@ def test_config_override_to_empty(config: Configular):
 def test_all_empty(config: Configular):
     with pytest.raises(ParameterNotFoundException):
         config.get('EmptyValue', 'nothing_here')
+
+
+def test_no_override_file():
+    config = Configular(CONFIG_FILE)
+    assert config.get('Github', 'client_id') == 'irregular'
